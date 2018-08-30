@@ -4,9 +4,9 @@ from trezor.messages.LiskMessageSignature import LiskMessageSignature
 from trezor.ui.text import Text
 from trezor.utils import HashWriter
 
-from .helpers import LISK_CURVE
+from .helpers import LISK_CURVE, validate_full_path
 
-from apps.common import seed
+from apps.common import paths, seed
 from apps.common.confirm import require_confirm
 from apps.common.signverify import split_message
 from apps.wallet.sign_tx.signing import write_varint
@@ -26,6 +26,7 @@ async def sign_message(ctx, msg):
     message = msg.message
     address_n = msg.address_n or ()
 
+    await paths.validate_path(ctx, validate_full_path, path=address_n)
     await require_confirm_sign_message(ctx, message)
 
     node = await seed.derive_node(ctx, address_n, LISK_CURVE)
