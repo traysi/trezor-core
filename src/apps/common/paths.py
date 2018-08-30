@@ -8,15 +8,15 @@ from apps.common import HARDENED
 from apps.common.confirm import require_confirm
 
 
-async def validate_path(ctx, validate_func, path: list, network: str = None):
-    if not validate_func(path, network):
-        await show_path_warning(ctx, path)
+async def validate_path(ctx, validate_func, **kwargs):
+    if not validate_func(**kwargs):
+        await show_path_warning(ctx, kwargs["path"])
 
 
 async def show_path_warning(ctx, path: list):
     text = Text("Confirm path", ui.ICON_WRONG, icon_color=ui.RED)
     text.normal("The path")
-    text.mono(*_break_address_n_to_lines(path))
+    text.mono(*break_address_n_to_lines(path))
     text.normal("seems unusual.")
     text.normal("Are you sure?")
     return await require_confirm(
@@ -52,7 +52,7 @@ def is_hardened(i: int) -> bool:
     return False
 
 
-def _break_address_n_to_lines(address_n: list) -> list:
+def break_address_n_to_lines(address_n: list) -> list:
     def path_item(i: int):
         if i & HARDENED:
             return str(i ^ HARDENED) + "'"

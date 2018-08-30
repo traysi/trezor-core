@@ -13,7 +13,7 @@ from apps.common.paths import validate_path
 async def sign_tx(ctx, msg: NEMSignTx):
     validate(msg)
     await validate_path(
-        ctx, check_path, msg.transaction.address_n, msg.transaction.network
+        ctx, check_path, path=msg.transaction.address_n, network=msg.transaction.network
     )
 
     node = await seed.derive_node(ctx, msg.transaction.address_n, NEM_CURVE)

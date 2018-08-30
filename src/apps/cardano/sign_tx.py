@@ -6,12 +6,14 @@ from trezor.messages.CardanoTxRequest import CardanoTxRequest
 from trezor.messages.MessageType import CardanoTxAck
 from trezor.ui.text import BR
 
-from .address import derive_address_and_node
+from .address import derive_address_and_node, validate_full_path
 from .layout import confirm_with_pagination, progress
 
 from apps.cardano import cbor
 from apps.common import seed, storage
 from apps.common.layout import address_n_to_str, split_address
+from apps.common.paths import validate_path
+
 from apps.homescreen.homescreen import display_homescreen
 
 
@@ -79,6 +81,8 @@ async def request_transaction(ctx, tx_req: CardanoTxRequest, index: int):
 
 
 async def sign_tx(ctx, msg):
+    await validate_path(ctx, validate_full_path, path=msg.address_n)
+
     mnemonic = storage.get_mnemonic()
     passphrase = await seed._get_cached_passphrase(ctx)
     root_node = bip32.from_mnemonic_cardano(mnemonic, passphrase)
