@@ -24,6 +24,34 @@ async def show_path_warning(ctx, path: list):
     )  # todo what type?
 
 
+def validate_path_for_get_public_key(path: list, slip44_id: int) -> bool:
+    """
+    Checks if path has at least three hardened items and slip44 id matches.
+    The path is allowed to have more than three items, but all the following
+    items have to be non-hardened. This is easily validated by looking at
+    the fourth item - if it is non-hardened all following items need to be
+    as per definition.
+    """
+    length = len(path)
+    if length < 3 or length > 5:
+        return False
+    if path[0] != 44 | HARDENED:
+        return False
+    if path[1] != slip44_id | HARDENED:
+        return False
+    if path[2] < HARDENED or path[2] > 10 | HARDENED:  # todo maybe increase?
+        return False
+    if length > 3 and is_hardened(path[3]):
+        return False
+    return True
+
+
+def is_hardened(i: int) -> bool:
+    if i & HARDENED:
+        return True
+    return False
+
+
 def _break_address_n_to_lines(address_n: list) -> list:
     def path_item(i: int):
         if i & HARDENED:
