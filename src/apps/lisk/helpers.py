@@ -1,4 +1,5 @@
 from trezor.crypto.hashlib import sha256
+
 from apps.common import HARDENED
 
 LISK_CURVE = "ed25519"
