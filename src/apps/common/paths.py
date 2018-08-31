@@ -28,9 +28,7 @@ def validate_path_for_get_public_key(path: list, slip44_id: int) -> bool:
     """
     Checks if path has at least three hardened items and slip44 id matches.
     The path is allowed to have more than three items, but all the following
-    items have to be non-hardened. This is easily validated by looking at
-    the fourth item - if it is non-hardened all following items need to be
-    as per definition.
+    items have to be non-hardened.
     """
     length = len(path)
     if length < 3 or length > 5:
@@ -42,6 +40,8 @@ def validate_path_for_get_public_key(path: list, slip44_id: int) -> bool:
     if path[2] < HARDENED or path[2] > 10 | HARDENED:  # todo maybe increase?
         return False
     if length > 3 and is_hardened(path[3]):
+        return False
+    if length > 4 and is_hardened(path[4]):
         return False
     return True
 

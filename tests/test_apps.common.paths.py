@@ -38,6 +38,8 @@ class TestPaths(unittest.TestCase):
         self.assertFalse(validate_path_for_get_public_key([44 | HARDENED, 41 | HARDENED, 0 | HARDENED, 0 | HARDENED, 0 | HARDENED], 41))
         # # 44'/41'/0'/0/0/0
         self.assertFalse(validate_path_for_get_public_key([44 | HARDENED, 41 | HARDENED, 0 | HARDENED, 0, 0, 0], 41))
+        # # 44'/41'/0'/0/0'
+        self.assertFalse(validate_path_for_get_public_key([44 | HARDENED, 41 | HARDENED, 0 | HARDENED, 0, 0 | HARDENED], 41))
 
 
 if __name__ == '__main__':
