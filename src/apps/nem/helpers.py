@@ -41,11 +41,14 @@ def get_network_str(network: int) -> str:
 
 def check_path(path: list, network=None) -> bool:
     """
-    Validates derivation path to fit 44'/43'/a'/0'/0',
-    where `a` is an account number. The max value for `a` is 10.
-    Testnet is also allowed: 44'/1'/a'/0'/0'.
+    Validates derivation path to fit 44'/43'/a' or 44'/43'/a'/0'/0',
+    where `a` is an account number. We believe the path should be
+    44'/43'/a', but for compatibility reasons with NEM's NanoWallet
+    we allow 44'/43'/a'/0'/0' as well.
+    Testnet is also allowed: 44'/1'/a'{/0'/0'}
     """
-    if len(path) != 5:
+    length = len(path)
+    if length != 3 and length != 5:
         return False
     if path[0] != 44 | HARDENED:
         return False
@@ -56,6 +59,6 @@ def check_path(path: list, network=None) -> bool:
         return False
     if path[2] < HARDENED or path[2] > 10 | HARDENED:
         return False
-    if path[3] != 0 | HARDENED or path[4] != 0 | HARDENED:
+    if length == 5 and (path[3] != 0 | HARDENED or path[4] != 0 | HARDENED):
         return False
     return True

@@ -40,6 +40,12 @@ class TestNemAddress(unittest.TestCase):
         self.assertTrue(check_path([44 | HARDENED, 43 | HARDENED, 3 | HARDENED, 0 | HARDENED, 0 | HARDENED]))
         # 44'/1'/0'/0'/0'  testnet
         self.assertTrue(check_path([44 | HARDENED, 1 | HARDENED, 3 | HARDENED, 0 | HARDENED, 0 | HARDENED], network=0x98))
+        # 44'/43'/0'
+        self.assertTrue(check_path([44 | HARDENED, 43 | HARDENED, 0 | HARDENED]))
+        # 44'/43'/2'
+        self.assertTrue(check_path([44 | HARDENED, 43 | HARDENED, 2 | HARDENED]))
+        # 44'/1'/0'  testnet
+        self.assertTrue(check_path([44 | HARDENED, 1 | HARDENED, 0 | HARDENED], network=0x98))
 
         # 44'/43'/0'/0'/1'
         self.assertFalse(check_path([44 | HARDENED, 43 | HARDENED, 0 | HARDENED, 0 | HARDENED, 1 | HARDENED]))
@@ -60,8 +66,6 @@ class TestNemAddress(unittest.TestCase):
         # 44'/1'/3'/0'/1'  testnet
         self.assertFalse(check_path([44 | HARDENED, 1 | HARDENED, 3 | HARDENED, 0 | HARDENED, 1 | HARDENED], network=0x98))
 
-        # 44'/43'/0'
-        self.assertFalse(check_path([44 | HARDENED, 43 | HARDENED, 0 | HARDENED]))
         # 44'/43'/0/0/1
         self.assertFalse(check_path([44 | HARDENED, 43 | HARDENED, 0, 0, 1]))
         # 44'/43'/0/0/0
