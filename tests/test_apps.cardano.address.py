@@ -148,6 +148,8 @@ class TestCardanoAddress(unittest.TestCase):
             [HARDENED | 44, HARDENED | 1815, HARDENED | 0, 0, 1],
             [HARDENED | 44, HARDENED | 1815, HARDENED | 9, 0, 4],
             [HARDENED | 44, HARDENED | 1815, HARDENED | 0, 0, 9],
+            [HARDENED | 44, HARDENED | 1815, HARDENED | 0, 1, 1],
+            [HARDENED | 44, HARDENED | 1815, HARDENED | 0, 1, 9],
         ]
 
         for path in incorrect_derivation_paths:

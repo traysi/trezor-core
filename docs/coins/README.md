@@ -9,7 +9,7 @@ Each coin uses [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.med
 | Bitcoin        | secp256k       | 44'/0'/a'      | 44'/0'/a'/y/i    | 44'/0'/a'/y/i    | BIP-32          | [6](#BitcoinDiagram) |
 | Ethereum       | secp256k       | 44'/60'/0'     | 44'/60'/0'/0/i   | 44'/60'/0'/0/i   | BIP-32          | [1](#Ethereum)|
 | Ripple         | secp256k       |       -        | 44'/144'/a'/0/0  | 44'/144'/a'/0/0  | BIP-32          | [2](#Ripple) |
-| Cardano        | ed25519        | 44'/1815'/a'   | 44'/1815'/a'/0/i | 44'/1815'/a'/0/i | [Cardano's own](https://cardanolaunch.com/assets/Ed25519_BIP.pdf)<sup>[3](#Cardano)</sup> |  |
+| Cardano        | ed25519        | 44'/1815'/a'   | 44'/1815'/a'/{0,1}/i | 44'/1815'/a'/{0,1}/i | [Cardano's own](https://cardanolaunch.com/assets/Ed25519_BIP.pdf)<sup>[3](#Cardano)</sup> |  |
 | Stellar        | ed25519        |       -        | 44'/148'/a'      | 44'/148'/a'      | SLIP-0010       |  |
 | Lisk           | ed25519        | 44'/134'/a'    | 44'/134'/a'      | 44'/134'/a'      | SLIP-0010       |  |
 | NEM            | ed25519        |       -        | 44'/43'/a'       | 44'/43'/a'       | SLIP-0010       | [4](#NEM)  |
