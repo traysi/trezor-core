@@ -101,6 +101,9 @@ async def sign_tx(ctx, msg):
         # clear progress bar
         display_homescreen()
 
+        for i in msg.inputs:
+            await validate_path(ctx, validate_full_path, path=i.address_n)
+
         # sign the transaction bundle and prepare the result
         transaction = Transaction(
             msg.inputs, msg.outputs, transactions, root_node, msg.network

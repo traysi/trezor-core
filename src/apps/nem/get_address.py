@@ -10,10 +10,10 @@ from apps.common.paths import validate_path
 
 async def get_address(ctx, msg):
     network = validate_network(msg.network)
+    await validate_path(ctx, check_path, path=msg.address_n, network=msg.network)
+
     node = await seed.derive_node(ctx, msg.address_n, NEM_CURVE)
     address = node.nem_address(network)
-
-    await validate_path(ctx, check_path, path=msg.address_n, network=msg.network)
 
     if msg.show_display:
         desc = address_n_to_str(msg.address_n)
