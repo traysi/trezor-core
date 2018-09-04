@@ -24,8 +24,7 @@ async def sign_message(ctx, msg):
     await paths.validate_path(ctx, validate_full_path, path=msg.address_n)
     await require_confirm_sign_message(ctx, msg.message)
 
-    address_n = msg.address_n or ()
-    node = await seed.derive_node(ctx, address_n)
+    node = await seed.derive_node(ctx, msg.address_n)
 
     signature = secp256k1.sign(
         node.private_key(),
