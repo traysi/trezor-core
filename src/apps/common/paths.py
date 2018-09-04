@@ -20,8 +20,8 @@ async def show_path_warning(ctx, path: list):
     text.normal("seems unusual.")
     text.normal("Are you sure?")
     return await require_confirm(
-        ctx, text, code=ButtonRequestType.Other
-    )  # todo what type?
+        ctx, text, code=ButtonRequestType.UnknownDerivationPath
+    )
 
 
 def validate_path_for_get_public_key(path: list, slip44_id: int) -> bool:
