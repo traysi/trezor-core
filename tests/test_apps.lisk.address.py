@@ -15,7 +15,7 @@ class TestLiskGetAddress(unittest.TestCase):
             [44 | HARDENED, 134 | HARDENED, 0 | HARDENED, 0 | HARDENED, 0 | HARDENED],
             [44 | HARDENED, 134 | HARDENED, 0 | HARDENED, 1, 0],
             [44 | HARDENED, 134 | HARDENED, 0 | HARDENED, 0, 0],
-            [44 | HARDENED, 134 | HARDENED, 9999 | HARDENED],
+            [44 | HARDENED, 134 | HARDENED, 9999000 | HARDENED],
             [44 | HARDENED, 60 | HARDENED, 0 | HARDENED, 0, 0],
             [1 | HARDENED, 1 | HARDENED, 1 | HARDENED],
         ]

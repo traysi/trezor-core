@@ -62,7 +62,7 @@ def validate_full_path(path: list) -> bool:
         return False
     if path[1] != 144 | HARDENED:
         return False
-    if path[2] < HARDENED or path[2] > 10 | HARDENED:
+    if path[2] < HARDENED or path[2] > 1000000 | HARDENED:
         return False
     if path[3] != 0:
         return False

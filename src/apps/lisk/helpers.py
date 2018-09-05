@@ -38,7 +38,7 @@ def _text_with_plural(txt, value):
 def validate_full_path(path: list) -> bool:
     """
     Validates derivation path to equal 44'/134'/a',
-    where `a` is an account index from 0 to 10.
+    where `a` is an account index from 0 to 1 000 000.
     """
     if len(path) != 3:
         return False
@@ -46,6 +46,6 @@ def validate_full_path(path: list) -> bool:
         return False
     if path[1] != 134 | HARDENED:
         return False
-    if path[2] < HARDENED or path[2] > 10 | HARDENED:
+    if path[2] < HARDENED or path[2] > 1000000 | HARDENED:
         return False
     return True

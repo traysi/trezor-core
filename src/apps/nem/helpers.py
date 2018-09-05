@@ -57,7 +57,7 @@ def check_path(path: list, network=None) -> bool:
         or (network == NEM_NETWORK_TESTNET and path[1] == 1 | HARDENED)
     ):
         return False
-    if path[2] < HARDENED or path[2] > 10 | HARDENED:
+    if path[2] < HARDENED or path[2] > 1000000 | HARDENED:
         return False
     if length == 5 and (path[3] != 0 | HARDENED or path[4] != 0 | HARDENED):
         return False

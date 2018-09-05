@@ -54,7 +54,7 @@ class TestNemAddress(unittest.TestCase):
         # 44'/43'/0'/1'/0'
         self.assertFalse(check_path([44 | HARDENED, 43 | HARDENED, 0 | HARDENED, 1 | HARDENED, 0 | HARDENED]))
         # 44'/43'/99999'/0'/0'
-        self.assertFalse(check_path([44 | HARDENED, 43 | HARDENED, 99999 | HARDENED, 0 | HARDENED, 0 | HARDENED]))
+        self.assertFalse(check_path([44 | HARDENED, 43 | HARDENED, 99999000 | HARDENED, 0 | HARDENED, 0 | HARDENED]))
         # 44'/99'/0'/0'/0'
         self.assertFalse(check_path([44 | HARDENED, 99 | HARDENED, 0 | HARDENED, 0 | HARDENED, 0 | HARDENED]))
         # 1'/43'/0'/0'/0'

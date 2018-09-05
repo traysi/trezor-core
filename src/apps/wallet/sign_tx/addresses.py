@@ -214,7 +214,7 @@ def validate_full_path(
 
     if path[1] != coin.slip44 | HARDENED:
         return False
-    if path[2] < HARDENED or path[2] > 10 | HARDENED:
+    if path[2] < HARDENED or path[2] > 20 | HARDENED:
         return False
     if path[3] not in [0, 1]:
         return False
@@ -273,7 +273,7 @@ def validate_path_for_bitcoin_public_key(path: list, coin: CoinInfo) -> bool:
 
     if path[1] != coin.slip44 | HARDENED:
         return False
-    if path[2] < HARDENED or path[2] > 10 | HARDENED:
+    if path[2] < HARDENED or path[2] > 20 | HARDENED:
         return False
     if length > 3 and paths.is_hardened(path[3]):
         return False

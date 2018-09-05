@@ -37,7 +37,7 @@ def validate_path_for_get_public_key(path: list, slip44_id: int) -> bool:
         return False
     if path[1] != slip44_id | HARDENED:
         return False
-    if path[2] < HARDENED or path[2] > 10 | HARDENED:  # todo maybe increase?
+    if path[2] < HARDENED or path[2] > 20 | HARDENED:
         return False
     if length > 3 and is_hardened(path[3]):
         return False
