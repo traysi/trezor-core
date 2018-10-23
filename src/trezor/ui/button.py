@@ -1,7 +1,10 @@
 from micropython import const
 
 from trezor import io, ui
-from trezor.ui import LazyWidget, contains, display, rotate
+from trezor.ui import contains, display, rotate
+
+if False:
+    from typing import Dict, Optional, Tuple, Union  # noqa: F401
 
 # button events
 BTN_CLICKED = const(1)
@@ -17,8 +20,10 @@ ICON = const(16)  # icon size in pixels
 BORDER = const(4)  # border size in pixels
 
 
-class Button(LazyWidget):
-    def __init__(self, area: tuple, content: str, style: dict = ui.BTN_KEY):
+class Button(ui.LazyWidget):
+    def __init__(
+        self, area: ui.Area, content: Union[str, bytes], style: Dict = ui.BTN_KEY
+    ) -> None:
         self.area = area
         self.content = content
         self.normal_style = style["normal"] or ui.BTN_KEY["normal"]
@@ -26,17 +31,17 @@ class Button(LazyWidget):
         self.disabled_style = style["disabled"] or ui.BTN_KEY["disabled"]
         self.state = BTN_INITIAL
 
-    def enable(self):
+    def enable(self) -> None:
         if self.state == BTN_DISABLED:
             self.state = BTN_INITIAL
             self.render_next_frame = True
 
-    def disable(self):
+    def disable(self) -> None:
         if self.state != BTN_DISABLED:
             self.state = BTN_DISABLED
             self.render_next_frame = True
 
-    def render(self):
+    def render(self) -> None:
         state = self.state
         if state == BTN_DISABLED:
             s = self.disabled_style
@@ -48,7 +53,9 @@ class Button(LazyWidget):
         self.render_background(s, ax, ay, aw, ah)
         self.render_content(s, ax, ay, aw, ah)
 
-    def render_background(self, s, ax, ay, aw, ah):
+    def render_background(
+        self, s: Dict[str, int], ax: int, ay: int, aw: int, ah: int
+    ) -> None:
         radius = s["radius"]
         bg_color = s["bg-color"]
         border_color = s["border-color"]
@@ -68,7 +75,9 @@ class Button(LazyWidget):
             # render only the background
             display.bar_radius(ax, ay, aw, ah, bg_color, ui.BG, radius)
 
-    def render_content(self, s, ax, ay, aw, ah):
+    def render_content(
+        self, s: Dict[str, int], ax: int, ay: int, aw: int, ah: int
+    ) -> None:
         c = self.content
         tx = ax + aw // 2
         ty = ay + ah // 2 + 8
@@ -79,12 +88,12 @@ class Button(LazyWidget):
         else:
             display.icon(tx - ICON // 2, ty - ICON, c, s["fg-color"], s["bg-color"])
 
-    def touch(self, event, pos):
+    def touch(self, event: int, pos: ui.Pos) -> Optional[int]:
         pos = rotate(pos)
 
         state = self.state
         if state == BTN_DISABLED:
-            return
+            return None
 
         if event == io.TOUCH_START:
             if contains(self.area, pos):
@@ -106,3 +115,5 @@ class Button(LazyWidget):
             self.render_next_frame = True
             if state == BTN_ACTIVE and contains(self.area, pos):
                 return BTN_CLICKED
+
+        return None

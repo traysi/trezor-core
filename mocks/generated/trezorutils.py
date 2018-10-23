@@ -11,7 +11,7 @@ def consteq(sec: bytes, pub: bytes) -> bool:
 
 # extmod/modtrezorutils/modtrezorutils.c
 def memcpy(dst: bytearray, dst_ofs: int,
-           src: bytearray, src_ofs: int,
+           src: bytes, src_ofs: int,
            n: int) -> int:
     '''
     Copies at most `n` bytes from `src` at offset `src_ofs` to
@@ -30,15 +30,9 @@ def set_mode_unprivileged() -> None:
     '''
     Set unprivileged mode.
     '''
-
-# extmod/modtrezorutils/modtrezorutils.c
-def symbol(name: str) -> str/int/None:
-    '''
-    Retrieve internal symbol.
-    '''
-
-# extmod/modtrezorutils/modtrezorutils.c
-def model() -> str:
-    '''
-    Return which hardware model we are running on.
-    '''
+GITREV: str
+VERSION_MAJOR: int
+VERSION_MINOR: int
+VERSION_PATCH: int
+MODEL: str
+EMULATOR: bool

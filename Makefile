@@ -84,6 +84,10 @@ black:
 cstyle: ## run code style check on low-level C code
 	./tools/clang-format-check $(shell find embed -type f -name *.[ch])
 
+mypy:
+	mypy \
+		src/protobuf.py
+
 ## code generation ##
 
 templates: ## render Mako templates (for lists of coins, tokens, etc.)

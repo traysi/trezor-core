@@ -11,9 +11,14 @@ class AES:
         Initialize AES context.
         '''
 
-    def update(self, data: bytes) -> bytes:
+    def encrypt(self, data: bytes) -> bytes:
         '''
-        Update AES context with data.
+        Encrypt data and update AES context.
+        '''
+
+    def decrypt(self, data: bytes) -> bytes:
+        '''
+        Decrypt data and update AES context.
         '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-bip32.h
@@ -36,6 +41,11 @@ class HDNode:
     def derive(self, index: int, public: bool=False) -> None:
         '''
         Derive a BIP0032 child node in place.
+        '''
+
+    def derive_cardano(self, index: int) -> None:
+        '''
+        Derive a BIP0032 child node in place using Cardano algorithm.
         '''
 
     def derive_path(self, path: List[int]) -> None:
@@ -83,6 +93,11 @@ class HDNode:
         Returns a private key of the HD node.
         '''
 
+    def private_key_ext(self) -> bytes:
+        '''
+        Returns a private key extension of the HD node.
+        '''
+
     def public_key(self) -> bytes:
         '''
         Returns a public key of the HD node.
@@ -116,6 +131,11 @@ class HDNode:
     def from_seed(seed: bytes, curve_name: str) -> HDNode:
         '''
         Construct a BIP0032 HD node from a BIP0039 seed value.
+        '''
+
+    def from_mnemonic_cardano(mnemonic: str) -> bytes:
+        '''
+        Convert mnemonic to hdnode
         '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-bip39.h
@@ -182,7 +202,7 @@ class Blake2b:
     Blake2b context.
     '''
 
-    def __init__(self, data: bytes = None, key: bytes = None) -> None:
+    def __init__(self, data: bytes = None, outlen: int = Blake2b.digest_size, personal: bytes = None) -> None:
         '''
         Creates a hash context object.
         '''
@@ -203,7 +223,7 @@ class Blake2s:
     Blake2s context.
     '''
 
-    def __init__(self, data: bytes = None, key: bytes = None) -> None:
+    def __init__(self, data: bytes = None, outlen: int = Blake2s.digest_size, key: bytes = None, personal: bytes = None) -> None:
         '''
         Creates a hash context object.
         '''
@@ -290,6 +310,12 @@ def sign(secret_key: bytes, message: bytes, hasher: str='') -> bytes:
     '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-ed25519.h
+def sign_ext(secret_key: bytes, secret_extension: bytes, message: bytes) -> bytes:
+    '''
+    Uses secret key to produce the cardano signature of message.
+    '''
+
+# extmod/modtrezorcrypto/modtrezorcrypto-ed25519.h
 def verify(public_key: bytes, signature: bytes, message: bytes) -> bool:
     '''
     Uses public key to verify the signature of the message.
@@ -313,6 +339,27 @@ def cosi_sign(secret_key: bytes, message: bytes, nonce: bytes, sigR: bytes, comb
     '''
     Produce signature of message using COSI cosigning scheme.
     '''
+
+# extmod/modtrezorcrypto/modtrezorcrypto-groestl.h
+class Groestl512:
+    '''
+    GROESTL512 context.
+    '''
+
+    def __init__(self, data: bytes = None) -> None:
+        '''
+        Creates a hash context object.
+        '''
+
+    def update(self, data: bytes) -> None:
+        '''
+        Update the hash context with hashed data.
+        '''
+
+    def digest(self) -> bytes:
+        '''
+        Returns the digest of hashed data.
+        '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-nem.h
 def validate_address(address: str, network: int) -> bool:
@@ -371,7 +418,7 @@ class Pbkdf2:
     PBKDF2 context.
     '''
 
-    def __init__(self, prf: str, password: bytes, salt: bytes, iterations: int = None) -> None:
+    def __init__(self, prf: int, password: bytes, salt: bytes, iterations: int = None, blocknr: int = 1) -> None:
         '''
         Create a PBKDF2 context.
         '''
@@ -454,7 +501,7 @@ def publickey(secret_key: bytes, compressed: bool = True) -> bytes:
     '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-secp256k1.h
-def sign(secret_key: bytes, digest: bytes, compressed: bool = True) -> bytes:
+def sign(secret_key: bytes, digest: bytes, compressed: bool = True, canonical: int = None) -> bytes:
     '''
     Uses secret key to produce the signature of the digest.
     '''
@@ -528,7 +575,7 @@ class Sha3_256:
     SHA3_256 context.
     '''
 
-    def __init__(self, data: bytes = None) -> None:
+    def __init__(self, data: bytes = None, keccak = False) -> None:
         '''
         Creates a hash context object.
         '''
@@ -538,9 +585,14 @@ class Sha3_256:
         Update the hash context with hashed data.
         '''
 
-    def digest(self, keccak: bool = False) -> bytes:
+    def digest(self) -> bytes:
         '''
         Returns the digest of hashed data.
+        '''
+
+    def copy(self) -> sha3:
+        '''
+        Returns the copy of the digest object with the current state
         '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-sha3-512.h
@@ -549,7 +601,7 @@ class Sha3_512:
     SHA3_512 context.
     '''
 
-    def __init__(self, data: bytes = None) -> None:
+    def __init__(self, data: bytes = None, keccak = False) -> None:
         '''
         Creates a hash context object.
         '''
@@ -559,9 +611,14 @@ class Sha3_512:
         Update the hash context with hashed data.
         '''
 
-    def digest(self, keccak: bool = False) -> bytes:
+    def digest(self) -> bytes:
         '''
         Returns the digest of hashed data.
+        '''
+
+    def copy(self) -> sha3:
+        '''
+        Returns the copy of the digest object with the current state
         '''
 
 # extmod/modtrezorcrypto/modtrezorcrypto-sha512.h

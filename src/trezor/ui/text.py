@@ -2,6 +2,9 @@ from micropython import const
 
 from trezor import ui
 
+if False:
+    from typing import List, Union  # noqa: F401
+
 TEXT_HEADER_HEIGHT = const(48)
 TEXT_LINE_HEIGHT = const(26)
 TEXT_MARGIN_LEFT = const(14)
@@ -11,7 +14,7 @@ TEXT_MAX_LINES = const(5)
 BR = const(-256)
 
 
-def render_text(words: list, new_lines: bool, max_lines: int) -> None:
+def render_text(words: List[Union[str, int]], new_lines: bool, max_lines: int) -> None:
     # initial rendering state
     font = ui.NORMAL
     fg = ui.FG
@@ -20,7 +23,7 @@ def render_text(words: list, new_lines: bool, max_lines: int) -> None:
     offset_y = TEXT_HEADER_HEIGHT + TEXT_LINE_HEIGHT
     OFFSET_X_MAX = ui.WIDTH
     OFFSET_Y_MAX = TEXT_HEADER_HEIGHT + TEXT_LINE_HEIGHT * max_lines
-    FONTS = (ui.NORMAL, ui.BOLD, ui.MONO, ui.MONO_BOLD)
+    FONTS = (ui.NORMAL, ui.BOLD, ui.MONO)
 
     # sizes of common glyphs
     SPACE = ui.display.text_width(" ", font)
@@ -114,36 +117,31 @@ class Text(ui.LazyWidget):
         icon_color: int = ui.ORANGE_ICON,
         max_lines: int = TEXT_MAX_LINES,
         new_lines: bool = True,
-    ):
+    ) -> None:
         self.header_text = header_text
         self.header_icon = header_icon
         self.icon_color = icon_color
         self.max_lines = max_lines
         self.new_lines = new_lines
-        self.content = []
+        self.content = []  # type: List[Union[str, int]]
 
-    def normal(self, *content):
+    def normal(self, *content: Union[str, int]) -> None:
         self.content.extend(content)
 
-    def bold(self, *content):
+    def bold(self, *content: Union[str, int]) -> None:
         self.content.append(ui.BOLD)
         self.content.extend(content)
         self.content.append(ui.NORMAL)
 
-    def mono(self, *content):
+    def mono(self, *content: Union[str, int]) -> None:
         self.content.append(ui.MONO)
         self.content.extend(content)
         self.content.append(ui.NORMAL)
 
-    def mono_bold(self, *content):
-        self.content.append(ui.MONO_BOLD)
-        self.content.extend(content)
-        self.content.append(ui.NORMAL)
-
-    def br(self):
+    def br(self) -> None:
         self.content.append(BR)
 
-    def render(self):
+    def render(self) -> None:
         ui.header(
             self.header_text, self.header_icon, ui.TITLE_GREY, ui.BG, self.icon_color
         )

@@ -39,7 +39,7 @@ STATIC mp_obj_t mod_trezorconfig_init(void) {
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorconfig_init_obj, mod_trezorconfig_init);
 
-/// def check_pin(pin: int, waitcallback: (int, int -> None)) -> bool:
+/// def check_pin(pin: int, waitcallback: Callable[[int, int], None]) -> bool:
 ///     '''
 ///     Check the given PIN. Returns True on success, False on failure.
 ///     '''
@@ -52,7 +52,7 @@ STATIC mp_obj_t mod_trezorconfig_check_pin(mp_obj_t pin, mp_obj_t waitcallback) 
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_2(mod_trezorconfig_check_pin_obj, mod_trezorconfig_check_pin);
 
-/// def unlock(pin: int, waitcallback: (int, int -> None)) -> bool:
+/// def unlock(pin: int, waitcallback: Callable[[int, int], None]) -> bool:
 ///     '''
 ///     Attempts to unlock the storage with given PIN.  Returns True on
 ///     success, False on failure.
@@ -78,7 +78,7 @@ STATIC mp_obj_t mod_trezorconfig_has_pin(void) {
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(mod_trezorconfig_has_pin_obj, mod_trezorconfig_has_pin);
 
-/// def change_pin(pin: int, newpin: int, waitcallback: (int, int -> None)) -> bool:
+/// def change_pin(pin: int, newpin: int, waitcallback: Callable[[int, int], None]) -> bool:
 ///     '''
 ///     Change PIN. Returns True on success, False on failure.
 ///     '''
@@ -92,7 +92,7 @@ STATIC mp_obj_t mod_trezorconfig_change_pin(mp_obj_t pin, mp_obj_t newpin, mp_ob
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_3(mod_trezorconfig_change_pin_obj, mod_trezorconfig_change_pin);
 
-/// def get(app: int, key: int, public: bool=False) -> bytes:
+/// def get(app: int, key: int, public: bool = False) -> bytes:
 ///     '''
 ///     Gets a value of given key for given app (or empty bytes if not set).
 ///     '''
@@ -112,7 +112,7 @@ STATIC mp_obj_t mod_trezorconfig_get(size_t n_args, const mp_obj_t *args) {
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mod_trezorconfig_get_obj, 2, 3, mod_trezorconfig_get);
 
-/// def set(app: int, key: int, value: bytes, public: bool=False) -> None:
+/// def set(app: int, key: int, value: bytes, public: bool = False) -> None:
 ///     '''
 ///     Sets a value of given key for given app.
 ///     '''
