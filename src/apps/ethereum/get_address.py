@@ -1,6 +1,7 @@
-from apps.common.layout import address_n_to_str, show_address, show_qr
-from apps.common import paths
 from .address import ethereum_address_hex, validate_full_path
+
+from apps.common import paths
+from apps.common.layout import address_n_to_str, show_address, show_qr
 from apps.ethereum import networks
 
 
@@ -24,7 +25,7 @@ async def get_address(ctx, msg):
         else:
             network = None
         hex_addr = ethereum_address_hex(address, network)
-        desc = address_n_to_str(address_n)
+        desc = address_n_to_str(msg.address_n)
         while True:
             if await show_address(ctx, hex_addr, desc=desc):
                 break

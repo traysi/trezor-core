@@ -13,10 +13,7 @@ async def get_public_key(ctx, msg):
     script_type = msg.script_type or InputScriptType.SPENDADDRESS
 
     await paths.validate_path(
-        ctx,
-        validate_path_for_bitcoin_public_key,
-        path=msg.address_n,
-        coin=coin,
+        ctx, validate_path_for_bitcoin_public_key, path=msg.address_n, coin=coin
     )
 
     curve_name = msg.ecdsa_curve_name

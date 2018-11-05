@@ -13,7 +13,6 @@ from apps.cardano import cbor
 from apps.common import seed, storage
 from apps.common.layout import address_n_to_str, split_address
 from apps.common.paths import validate_path
-
 from apps.homescreen.homescreen import display_homescreen
 
 

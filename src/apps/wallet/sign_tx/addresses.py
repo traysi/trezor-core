@@ -224,19 +224,16 @@ def validate_full_path(
 
 
 def validate_purpose(purpose: int, coin: CoinInfo) -> bool:
-    if purpose not in (
-        44 | HARDENED,
-        48 | HARDENED,
-        49 | HARDENED,
-        84 | HARDENED,
-    ):
+    if purpose not in (44 | HARDENED, 48 | HARDENED, 49 | HARDENED, 84 | HARDENED):
         return False
     if not coin.segwit and purpose not in (44 | HARDENED, 48 | HARDENED):
         return False
     return True
 
 
-def validate_purpose_against_script_type(purpose: int, script_type: InputScriptType) -> bool:
+def validate_purpose_against_script_type(
+    purpose: int, script_type: InputScriptType
+) -> bool:
     """
     Validates purpose against provided input's script type:
     - 44 for spending address (script_type == SPENDADDRESS)
