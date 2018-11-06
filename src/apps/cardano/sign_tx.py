@@ -80,8 +80,6 @@ async def request_transaction(ctx, tx_req: CardanoTxRequest, index: int):
 
 
 async def sign_tx(ctx, msg):
-    await validate_path(ctx, validate_full_path, path=msg.address_n)
-
     mnemonic = storage.get_mnemonic()
     passphrase = await seed._get_cached_passphrase(ctx)
     root_node = bip32.from_mnemonic_cardano(mnemonic, passphrase)
