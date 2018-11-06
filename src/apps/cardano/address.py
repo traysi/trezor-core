@@ -10,7 +10,7 @@ def validate_full_path(path: list) -> bool:
     Validates derivation path to fit 44'/1815'/a'/{0,1}/i,
     where `a` is an account number and i an address index.
     The max value for `a` is 20, 1 000 000 for `i`.
-    The derivation scheme v1 allows a'/0/i only,
+    The derivation scheme v1 allowed a'/0/i only,
     but in v2 it can be a'/1/i as well.
     """
     if len(path) != 5:

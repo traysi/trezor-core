@@ -52,7 +52,7 @@ def decode_address(address: str):
 def validate_full_path(path: list) -> bool:
     """
     Validates derivation path to equal 44'/144'/a'/0/0,
-    where `a` is an account index from 0 to 10.
+    where `a` is an account index from 0 to 1 000 000.
     Similar to Ethereum this should be 44'/144'/a', but for
     compatibility with other HW vendors we use 44'/144'/a'/0/0.
     """
