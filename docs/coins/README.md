@@ -14,6 +14,7 @@ Each coin uses [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.med
 | Lisk           | ed25519        | 44'/134'/a'    | 44'/134'/a'      | 44'/134'/a'      | SLIP-0010       |  |
 | NEM            | ed25519        |       -        | 44'/43'/a'       | 44'/43'/a'       | SLIP-0010       | [5](#NEM)  |
 | Monero         | ed25519        | 44'/128'/a'<sup>[6](#Monero)</sup> | 44'/128'/a'      | 44'/128'/a'      | SLIP-0010         | |
+| Tezos          | ed25519<sup>[7](#Tezos)</sup> | 44'/1729'/a' | 44'/1729'/a'      | 44'/1729'/a'      | SLIP-0010         | |
 
 Paths that do not conform to this table are allowed, but user needs to confirm a warning on Trezor. For getPublicKey we do not check if the path is followed by other non-hardened items (anyone can derive those anyway). This is beneficial  for Ethereum and its MEW compatibility, which sends `44'/60'/0'/0` for getPublicKey.
 
@@ -39,6 +40,8 @@ Other `p` are disallowed. `c` has to be equal to the coin's [slip44 id](https://
 5. <a name="NEM"></a> NEM's path should be `44'/60'/a'` as per SEP-0005, but we allow `44'/60'/a'/0'/0'` as well for compatibility reasons with NanoWallet.
 
 6. <a name="Monero"></a> Actually it is GetWatchKey for Monero.
+
+7. <a name="Tezos"></a> Tezos supports multiple curves, but Trezor currently supports ed25519 only.
 
 Sign message paths are validated in the same way as the sign tx paths are.
 

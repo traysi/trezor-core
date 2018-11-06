@@ -4,20 +4,16 @@ from trezor.crypto.curve import ed25519
 from trezor.messages import TezosContractType
 from trezor.messages.TezosSignedTx import TezosSignedTx
 
-from apps.common import seed
+from apps.common import paths, seed
 from apps.common.writers import write_bytes, write_uint8
-from apps.tezos.helpers import (
-    TEZOS_CURVE,
-    TEZOS_ORIGINATED_ADDRESS_PREFIX,
-    TEZOS_SIGNATURE_PREFIX,
-    base58_encode_check,
-)
+from apps.tezos import helpers
 from apps.tezos.layout import *
 
 
 async def sign_tx(ctx, msg):
     address_n = msg.address_n or ()
-    node = await seed.derive_node(ctx, address_n, TEZOS_CURVE)
+    await paths.validate_path(ctx, helpers.validate_full_path, path=address_n)
+    node = await seed.derive_node(ctx, address_n, helpers.TEZOS_CURVE)
 
     if msg.transaction is not None:
         to = _get_address_from_contract(msg.transaction.destination)
@@ -68,9 +64,11 @@ async def sign_tx(ctx, msg):
 
     sig_op_contents = opbytes + signature
     sig_op_contents_hash = hashlib.blake2b(sig_op_contents, outlen=32).digest()
-    ophash = base58_encode_check(sig_op_contents_hash, prefix="o")
+    ophash = helpers.base58_encode_check(sig_op_contents_hash, prefix="o")
 
-    sig_prefixed = base58_encode_check(signature, prefix=TEZOS_SIGNATURE_PREFIX)
+    sig_prefixed = helpers.base58_encode_check(
+        signature, prefix=helpers.TEZOS_SIGNATURE_PREFIX
+    )
 
     return TezosSignedTx(
         signature=sig_prefixed, sig_op_contents=sig_op_contents, operation_hash=ophash
@@ -82,7 +80,7 @@ def _get_address_by_tag(address_hash):
     tag = int(address_hash[0])
 
     if 0 <= tag < len(prefixes):
-        return base58_encode_check(address_hash[1:], prefix=prefixes[tag])
+        return helpers.base58_encode_check(address_hash[1:], prefix=prefixes[tag])
     raise wire.DataError("Invalid tag in address hash")
 
 
@@ -91,8 +89,8 @@ def _get_address_from_contract(address):
         return _get_address_by_tag(address.hash)
 
     elif address.tag == TezosContractType.Originated:
-        return base58_encode_check(
-            address.hash[:-1], prefix=TEZOS_ORIGINATED_ADDRESS_PREFIX
+        return helpers.base58_encode_check(
+            address.hash[:-1], prefix=helpers.TEZOS_ORIGINATED_ADDRESS_PREFIX
         )
 
     raise wire.DataError("Invalid contract type")
